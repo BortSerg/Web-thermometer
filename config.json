@@ -1,0 +1,12 @@
+{
+    "WIFI": [{
+        "ssid": "LEGIT | NewLocation",
+        "password": "putinHUILO2022"
+    }],
+
+    "AP" :[{
+        "AP_name" : "ESP8266",
+        "password" : ""
+
+    }]
+}

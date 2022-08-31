@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name="viewport" content="width=device-width" http-equiv="Refresh" content="300" charset="utf-8">
+            <title>Web thermometer</title>
+            <link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet" type="text/css">
+            <style type="text/css">
+                html {height: 100%; }
+                .data {color: #fff;font-family: Advent Pro ;font-weight: 400; text-align: center;}
+                h1 {text-align: center;}
+                h2 {text-align: center; font-size: 90px;font-weight: 400; margin: 0}
+                table {position: absolute; z-index: 0; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%)}
+                td {display: inline-block; width:400px;}
+                body {margin: 0;}
+                .knopki{position: relative; z-index: 1; text-align: center; height: 35px; width: 90px;}
+
+                @media screen and (max-width:1500px) {td{width:40%;} table{left: 62%; margin-right: -62%;}}
+                @media screen and (max-width:800px) {td{width:40%; margin:20px;} table{left: 55%; margin-right: -55%;} h1{font-size: 30px;} h2{font-size: 40px;}}
+                @media screen and (max-width:640px) {td{width:30%; margin:20px;} table{left: 60%; margin-right: -60%;} h1{font-size: 30px;} h2{font-size: 30px;}}
+                @media screen and (max-width:560px) {td{width:50%; margin:18px;} table{left: 80%; margin-right: -80%;} h1{font-size: 25px;} h2{font-size: 25px;}}
+                @media screen and (max-width:400px) {td{width:50%; margin:10px;} table{left: 80%; margin-right: -80%; top: 40%;} h1{font-size: 20px;} h2{font-size: 20px;}}
+            </style>
+        </head>
+
+        <body class = "color">
+            <div>
+                <form action="/wifi_ap.html"><button class="knopki" type="submit">WI-FI<br>AP</button></form>
+                <br><form action="/settings_Light"><button class="knopki" type="submit">LIGHT</button></form>
+            </div>
+            <div class="data">
+                <table cellspacing="100">
+                    <tr><td><h1>Temperature</h1><h2 id="temperature"></h2></td>
+                </table>
+            </div>
+        </body>
+
+        <script>
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() 
+            {
+                if (xhr.readyState == 4 && xhr.status == 200)
+                {
+                    var jsonData = JSON.parse(xhr.responseText); 
+                    showTemperature(jsonData); 
+                }
+            };
+            
+            xhr.open("GET", 'temperature.json', true);
+            xhr.send();
+            
+            function showTemperature(data) {
+                var temp = data.temp
+                var output = "" + temp.toString() + "&nbsp;<small>&deg;C</small>";
+                document.getElementById("temperature").innerHTML = output;
+
+                const info = document.querySelector('.color')
+                if (temp <= 0)
+                {
+                    info.setAttribute('style', 'background: linear-gradient(to bottom, #7abcff,#0665e0);');
+                }
+                
+                if (temp >= 30)
+                {
+                    info.setAttribute('style', 'background: linear-gradient(to bottom, #fcdb88, #d32106);');
+                }
+                
+                if (temp > 0 & temp < 30 )
+                {
+                    info.setAttribute('style', 'background: linear-gradient(to bottom, #81ef85, #057003);');
+                }
+                    return data.temp.toString()
+            }
+
+            
+            
+        </script>
+
+    </html>
