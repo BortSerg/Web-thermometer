@@ -17,25 +17,6 @@ void HTTP_handleSave (void){
         Serial.println("Настройки сети сохранены в EEPROM память.\n");
   }
 
-  
-  if (server.hasArg("send_NM") | server.hasArg("interval_NM") /*| server.hasArg("send_TL") | server.hasArg("interval_TL")| server.hasArg("chat_id") | server.hasArg("token")*/)
-  {
-        
-      
-        if( server.hasArg("send_NM")       ) if (atoi(server.arg("send_NM").c_str()) == 1) Config.SEND_NM = true; else Config.SEND_NM = false;
-        if( server.hasArg("interval_NM")   ) Config.INTERVAL_NM = atoi(server.arg("interval_NM").c_str()); interval_NM = Config.INTERVAL_NM * 60000 ; //60000ms в одной минуте
-      /*
-        if( server.hasArg("send_TL")       ) if (atoi(server.arg("send_TL").c_str()) == 1) Config.SEND_TL = true; else Config.SEND_TL = false;
-        if( server.hasArg("interval_TL")   ) Config.INTERVAL_TL = atoi(server.arg("interval_TL").c_str()); interval_TL = Config.INTERVAL_TL * 60000 ; //60000ms в одной минуте
-        if( server.hasArg("chat_id")       ) strcpy(Config.CHAT_ID, server.arg("chat_id").c_str());
-        if( server.hasArg("token")         ) strcpy(Config.TOKEN, server.arg("token").c_str());
-       */
-        changeNM = true;
-        save_Config();
-        Serial.println("Настройки Narodmon.ru сохранены в EEPROM память.\n");
-  }
-
-
   if (server.hasArg("light"))
   {
         Config.LIGHT = server.arg("light").toInt();
@@ -90,13 +71,7 @@ void HTTP_handleSave (void){
  out += "alert(\"Для применения сетевых параметров необходима перезагрузка. Перезагрузите устройство вручную\");";
  out += "</script>";
  server.send ( 200, "text/html", out );
- 
- changeClock = false;
- notChangeClock = false;
-  }
-
-
- 
+}
 
 // * Сохраняем значение конфигурации в EEPROM
  

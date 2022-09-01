@@ -1,5 +1,5 @@
 void Dalas18B20(){
-   DS18B20.begin();                                  //Запуск DS18B20
+  DS18B20.begin();                                  //Запуск DS18B20
   DeviceAddress tempDeviceAddress;
   NumberOfDevices = DS18B20.getDeviceCount();       //количество датчиков DS18B20 в системе .
   Serial.print("Found ");

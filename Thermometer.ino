@@ -1,3 +1,4 @@
+#include <FS.h>
 #include <ArduinoOTA.h>
 #include <OneWire.h>
 #include <ESP8266WiFi.h>
@@ -8,19 +9,6 @@
 #include <Wire.h>
 #include <TM1637.h>
 #include <EEPROM.h>
-#include <SPIFFS.h>
-
-BME280I2C::Settings settings(
-    BME280::OSR_X1,
-    BME280::OSR_X1,
-    BME280::OSR_X1,
-    BME280::Mode_Forced,
-    BME280::StandbyTime_1000ms,
-    BME280::Filter_Off,
-    BME280::SpiEnable_False,
-    0x76 // I2C address. I2C specific.
-);
-BME280I2C bme(settings);
 
 // I2C pins                                 //Wemos ESP8266
 #define SDA_pin 4 // D2 pin
@@ -38,7 +26,7 @@ BME280I2C bme(settings);
 TM1637 tm1637(CLK, DIO);
 
 int NumberOfDevices; //сколько датчиков DS18B20 в системе.
-
+uint16_t interval_TM1637 = 10000;
 // Переменные для таймингов
 unsigned long previousMillis_TM1637 = 0;
 
@@ -52,7 +40,7 @@ DallasTemperature DS18B20(&oneWire);
 
 
 struct ESP_Config
-{                      //структура для хранения настроек метеостанции в EEPROM памяти. Переменные структуры записаны большими буквами, для их отличия от других глобальных переменных
+{ //структура для хранения настроек
   char MUSOR[16] = {}; //В начале сектора EEPROM содержатся какие-то данные ESP, запись туда важных данных нежелательна
   // Наименование в режиме клиента
   char WIFI_SSID[32] = {}; //имя сети
@@ -60,18 +48,7 @@ struct ESP_Config
   // Параметры подключения в режиме точки доступа
   char AP_SSID[32] = {}; //имя точки доступа
   char AP_PASSWORD[32] = {};
-  // Настройки часов
-  int GMT = 0;               //часовой пояс
-  bool SYNC_CLOCK = 0;       //разрешение на синхронизацию
-  uint8_t INTERVAL_SYNC = 0; //интервал синхронизации часов
-  // Настройки отправки данных на narodmon.ru
-  bool SEND_NM = 0;        //разрешение на отправку данных Narodmon
-  uint8_t INTERVAL_NM = 0; //интервал отправки данных
-  // Настройки отправки сообщений в Telegram
-  bool SEND_TL = 0;        //разрешение на отправку данных Telegram
-  uint8_t INTERVAL_TL = 0; //интервал отправки данных
-  char CHAT_ID[16] = {};   //Уникальный ID  чата
-  char TOKEN[64] = {};     // API Token
+
   byte LIGHT = 0;          //Яркость 7-сегментного индикатора
   byte CONTROLL_VALUE = 0; //Контрольное значение = 88. Используется для определения загрузки дефолтных настроек при первом запуске
 } Config;
@@ -86,7 +63,7 @@ void setup()
   EEPROM.begin(sizeof(Config)); //инициализация EEPROM памяти в размере = размеру структуры Config
   Serial.println("Инициализированно " + String(sizeof(Config)) + " byte EEPROM памяти");
 
-  OTA_Update(); //подключение обновления по воздуху
+  //OTA_Update(); //подключение обновления по воздуху
 
   Read_Config(); // xтение конфига из EEPROM памяти конфигураций
 
@@ -100,11 +77,6 @@ void setup()
     strcpy(Config.WIFI_PASSWORD, pass.c_str());
     strcpy(Config.AP_SSID, ap_ssid.c_str());
     strcpy(Config.AP_PASSWORD, ap_pass.c_str());
-    Config.SEND_NM = 5;
-    Config.GMT = 0;
-    Config.SYNC_CLOCK = 1;
-    Config.INTERVAL_NM = 5;
-    Config.INTERVAL_SYNC = 12;
     Config.LIGHT = 2;
     Config.CONTROLL_VALUE = 88;
     save_Config();
@@ -138,10 +110,7 @@ void loop()
   {
     tm1637.point(false);
     previousMillis_TM1637 = currentMillis;
-    getTM1637TemperatureRoom();
-    count++;
+    getTM1637Temperature();
   }
-
-
   yield();
 }
