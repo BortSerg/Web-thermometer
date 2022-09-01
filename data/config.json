@@ -8,5 +8,9 @@
         "AP_name" : "ESP8266",
         "password" : ""
 
+    }],
+
+    "LIGHT" :[{
+        "level": 7
     }]
 }

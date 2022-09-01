@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" name="viewport" content="text/html" charset="utf-8" width="device-width" initial-scale="1", user-scalable="no">
+            <title>Settings</title>
+            <style type="text/css">
+                html {padding:0; margin:0;
+                height: 100%;
+                background: #2c3e50; /* fallback for old browsers */
+                background: -webkit-linear-gradient(to left, #2c3e50, #4ca1af); /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, #2c3e50, #4ca1af); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */}
+    
+                h1{font-style:italic; font-weight:bold; text-align:center; color:white;}
+                h2{color:white;}
+                fieldset{text-align: left;}
+                legend { text-align: center; }
+                body {padding:0; margin:0;}
+                .tab { margin-left: 10px; height: 20px; width: 30px;}
+                .tab_gmt { margin-left: 10px; height: 20px; width: 35px;}
+                .tab_sync{margin-left: 10px; height: 20px; width: 40px;}
+                .tab_yesno {margin-left:20px;}
+                .knopki {font-size:16px;}
+                .clock_script {margin-left: 15px; color: white; font-size: 120%; font-weight: bold; font-style:italic;}
+    
+                @media screen and (max-width:550px){div {text-align: center; margin-left: 0px; margin-right: 0px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:550px){div {text-align: center; margin-left: 0px; margin-right: 0px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:650px){div {text-align: center; margin-left: 50px; margin-right: 50px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:800px){div {text-align: center; margin-left: 100px; margin-right: 100px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:1024px){div {text-align: center; margin-left: 200px; margin-right: 200px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:1280px){div {text-align: center; margin-left: 280px; margin-right: 280px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:1440px){div {text-align: center; margin-left: 320px; margin-right: 320px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:1600px){div {text-align: center; margin-left: 400px; margin-right: 400px; margin-top:20px; margin-bottom:20px;}}
+                @media screen and (min-width:1920px){div {text-align: center; margin-left: 480px; margin-right: 480px; margin-top:20px; margin-bottom:20px;}}
+            </style>
+    
+            <script type="text/javascript">
+                function check() { var inp1 = document.getElementById('input1');
+                document.getElementById('save').disabled = inp1.value ? false : "disabled";}
+
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() 
+                {
+                    if (xhr.readyState == 4 && xhr.status == 200)
+                    {
+                        var jsonData = JSON.parse(xhr.responseText); 
+                        showConfig(jsonData); 
+                    }
+                };
+                
+                xhr.open("GET", 'config.json', true);
+                xhr.send();
+                
+                function showConfig(data) {
+                    var level = data.LIGHT[0].level;
+                    document.getElementById("input1").value = level;
+   
+                }
+            </script>
+        </head>
+        <body>
+            <div>
+                <form id="dataLight" action="/save">
+                    <fieldset>
+                        <legend><h1>Настройки яркости свечения индикатора</h1></legend>
+                        <h2><p>Яркость<select id="input1" onclick="check();" class="tab_yesno" name="light" >
+                        <option selected value="0">Тусклый</option>
+                        <option value="2">Средний</option>
+                        <option value="7">Яркий</option>"
+                        </select></p>
+                    </fieldset><br>
+                </form>
+                <p><a href='/main.html'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="dataLight" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
+            </div>
+        </body>
+    </html>

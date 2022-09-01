@@ -43,8 +43,6 @@
                 inp3 = document.getElementById('input3');
                 inp4 = document.getElementById('input4');
                 document.getElementById('save').disabled = inp1.value || inp2.value || inp3.value || inp4.value  ? false : "disabled";}
-
-
             </script>
   
         </head>
@@ -65,16 +63,16 @@
                     
                     <fieldset>
                         <legend><h1>Настройки точки доступа</h1></legend><h2>
-                        <p><label>SSID AP</label>";
+                        <p><label>SSID AP</label>
                         <input id="input3" onkeyup="check();" required class="tab_ap" type="text" title='Имя точки доступа которую создаст метеостанция если нет подключения к роутеру' name='ap_ssid' value='" + String(Config.AP_SSID) + "' >
                         <p><label>Password</label>
                         <input id="input4" onkeyup="check();" class="tab_appass" type="password" title='Пароль от точки доступа. Для открытого подключения оставить пустым' name='ap_password' value='" + String(Config.AP_PASSWORD) + "'>
                         </h2>
                     </fieldset>
-                    
                     <br>
-                
                 </form>
+                <p><a href='/main.html'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="data" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
+                
             </div>
         </body>
         <script>
@@ -92,15 +90,15 @@
             xhr.send();
             
             function showConfig(data) {
-                var SSID = data.WIFI.ssid;
-                var WiFi_pass = data.WIFI.password;
-                var AP = data.AP.AP_name;
-                var AP_pass = data.AP.password;
+                var SSID = data.WIFI[0].ssid;
+                var WiFi_pass = data.WIFI[0].password;
+                var AP = data.AP[0].AP_name;
+                var AP_pass = data.AP[0].password;
 
-                document.getElementById("wifi_ssid").nodeValue = SSID;
-                document.getElementById("input2").innerHTML = WiFi_pass;
-                document.getElementById("input3").innerHTML = AP;
-                document.getElementById("input4").innerHTML = AP_pass;
+                document.getElementById("input1").value = SSID;
+                document.getElementById("input2").value = WiFi_pass;
+                document.getElementById("input3").value = AP;
+                document.getElementById("input4").value = AP_pass;
             }
         </script>
     </html>
