@@ -53,9 +53,9 @@
                     <fieldset>
                         <legend><h1> Настройки домашней сети Wi-Fi</h1></legend>
                         <h2><label>SSID</label>
-                        <input id="input1" onkeyup="check();" class="tab_ssid" type="text" title='Имя домашней сети Wi-Fi' name='wifi_ssid'>
+                        <input id="input1" onkeyup="check();" class="tab_ssid" type="text" title='Имя домашней сети Wi-Fi' name='wifi_ssid' value="">
                         <p><label>Password</label>
-                        <input id="input2" onkeyup="check();" type="password" class="tab_ssidpass" title='Пароль от сети. Для открытого подключения оставить пустым' name='wifi_password'>
+                        <input id="input2" onkeyup="check();" type="password" class="tab_ssidpass" title='Пароль от сети. Для открытого подключения оставить пустым' name='wifi_password' value="">
                         </h2>
                     </fieldset>
 
@@ -64,14 +64,14 @@
                     <fieldset>
                         <legend><h1>Настройки точки доступа</h1></legend><h2>
                         <p><label>SSID AP</label>
-                        <input id="input3" onkeyup="check();" required class="tab_ap" type="text" title='Имя точки доступа которую создаст метеостанция если нет подключения к роутеру' name='ap_ssid' value='" + String(Config.AP_SSID) + "' >
+                        <input id="input3" onkeyup="check();" required class="tab_ap" type="text" title='Имя точки доступа которую создаст метеостанция если нет подключения к роутеру' name='ap_ssid' value="">
                         <p><label>Password</label>
-                        <input id="input4" onkeyup="check();" class="tab_appass" type="password" title='Пароль от точки доступа. Для открытого подключения оставить пустым' name='ap_password' value='" + String(Config.AP_PASSWORD) + "'>
+                        <input id="input4" onkeyup="check();" class="tab_appass" type="password" title='Пароль от точки доступа. Для открытого подключения оставить пустым' name='ap_password' value="">
                         </h2>
                     </fieldset>
                     <br>
                 </form>
-                <p><a href='/main.html'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="data" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
+                <p><a href='/'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="data" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
                 
             </div>
         </body>
@@ -86,7 +86,7 @@
                 }
             };
             
-            xhr.open("GET", 'config.json', true);
+            xhr.open("GET", '/config', true);
             xhr.send();
             
             function showConfig(data) {

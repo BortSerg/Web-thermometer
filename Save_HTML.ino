@@ -25,8 +25,15 @@ void HTTP_handleSave (void){
         Serial.println("Яркоость индикатора измена и сохранеа в EEPROM.\n");
   }
 
-  
-  String out = "";
+ File f = SPIFFS.open("/config.json", "w");
+ String config_json = "{\n\t\"WIFI\": [{\n\t\t\"ssid\": \"" + String(Config.WIFI_SSID) + "\",\n\t\t\"password\": \"" + String(Config.WIFI_PASSWORD) + "\"\n\t}],";
+        config_json+= "\n\t\"AP\" :[{\n\t\t\"AP_name\" : \"" + String(Config.AP_SSID) +   "\",\n\t\t\"password\" : \"" + String(Config.AP_PASSWORD) + "\"\n\t}],";
+        config_json+= "\n\t\"LIGHT\" :[{\n\t\t\"level\": \"" + String(Config.LIGHT) + "\"\n\t}]\n}";
+ f.print(config_json);
+ f.close();
+ Serial.println(config_json);
+ 
+ String out = "";
  out += "<!DOCTYPE html>";
  out += "<html>";
  out += "<head>";
@@ -59,9 +66,7 @@ void HTTP_handleSave (void){
  out += "<body><h1>Конфигурация сохранена</h1>";
  out += "<h2>Перейти на страницу:</h2>";
  out +=     "<div align=\"center\">";
- out +=          "<form action=\"/settings_WiFi_AP\"><button class=\"knopki\" type=\"submit\">WI-FI<br>AP</button></form>";
- out +=          "<br><form action=\"/settings_NM_Tel\"><button class=\"knopki\" type=\"submit\">NARODMON<br>TELEGRAM</button></form>";
- out +=          "<br><form action=\"/settings_Clock\"><button class=\"knopki\" type=\"submit\">CLOCK</button></form>";
+ out +=          "<form action=\"/wifi_ap\"><button class=\"knopki\" type=\"submit\">WI-FI<br>AP</button></form>";
  out +=          "<br><form action=\"/\"><button class=\"knopki\" type=\"submit\">Главная</button></form>";
  out +=     "</div>";
  out += "</body>";

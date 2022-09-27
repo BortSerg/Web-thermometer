@@ -55,10 +55,10 @@ struct ESP_Config
 
 void setup()
 {
-
+  SPIFFS.begin();
   Serial.begin(115200);
   Serial.println("");
-  Serial.println("Soft ver. 14.07.2022");
+  Serial.println("Soft ver. 27.09.2022");
   Serial.println("");
   EEPROM.begin(sizeof(Config)); //инициализация EEPROM памяти в размере = размеру структуры Config
   Serial.println("Инициализированно " + String(sizeof(Config)) + " byte EEPROM памяти");
@@ -95,14 +95,13 @@ void setup()
 
   IP_address_run(); //вывод IP адреса
 
-
 }
 
 void loop()
 {
   server.handleClient();
   ArduinoOTA.handle();
-  delay(100);
+  //delay(100);
 
   unsigned long currentMillis = millis();
 

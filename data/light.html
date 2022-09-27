@@ -47,7 +47,7 @@
                     }
                 };
                 
-                xhr.open("GET", 'config.json', true);
+                xhr.open("GET", '/config', true);
                 xhr.send();
                 
                 function showConfig(data) {
@@ -62,14 +62,14 @@
                 <form id="dataLight" action="/save">
                     <fieldset>
                         <legend><h1>Настройки яркости свечения индикатора</h1></legend>
-                        <h2><p>Яркость<select id="input1" onclick="check();" class="tab_yesno" name="light" >
+                        <h2><p>Яркость<select id="input1" onclick="check();" class="tab_yesno" name="light" value="" >
                         <option selected value="0">Тусклый</option>
                         <option value="2">Средний</option>
                         <option value="7">Яркий</option>"
                         </select></p>
                     </fieldset><br>
                 </form>
-                <p><a href='/main.html'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="dataLight" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
+                <p><a href='/'><input class="knopki" value="Главная" type="submit"></a>  <input id="save" form="dataLight" class="knopki" type="submit" value="Сохранить" title="Сначала необходимо что-то изменить :)" disabled="disabled">
             </div>
         </body>
     </html>
